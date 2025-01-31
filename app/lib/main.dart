@@ -1,4 +1,7 @@
+import 'package:app/style.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,119 +10,164 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    return GetMaterialApp(
+      title: 'HereMe',
+      theme: mainTheme,
+      initialRoute: '/',
+      getPages: [
+        GetPage(
+            name: '/',
+            page: () => const MyHomePage(title: 'HereMe'),
+            transition: Transition.noTransition),
+        GetPage(
+            name: '/chats',
+            page: () => const Chats(),
+            transition: Transition.noTransition),
+        GetPage(
+          name: '/settings',
+          page: () => const Settings(),
+        )
+      ],
+      initialBinding: BindingsBuilder(() {
+        Get.put(StoreController());
+        Get.put(NavigationController());
+      }),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class BaseScaffold extends StatelessWidget {
+  final String title;
+  final Widget body;
+
+  const BaseScaffold({
+    super.key,
+    required this.title,
+    required this.body,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final NavigationController navigationController =
+    Get.find<NavigationController>();
+
+    return Scaffold(
+      appBar: AppBar(
+          centerTitle: false,
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: Text(title, style: Theme.of(context).textTheme.headlineLarge,),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.settings_outlined),
+              onPressed: () {
+                Get.toNamed("/settings");
+                // Add your onPressed logic here
+              },
+            ),
+          ]),
+      body: body,
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.black,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        currentIndex: navigationController.currentIndex.value,
+        onTap: navigationController.changePage,
+        items: const [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined), label: 'Home'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.add_circle_outline), label: 'New Message'),
+          BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.chat_bubble_2), label: 'chats'),
+        ],
+      ),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
+    final StoreController store = Get.find<StoreController>();
+
+    return BaseScaffold(
+      title: title,
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
               'You have pushed the button this many times:',
             ),
-            Text(
-              '$_counter',
+            Obx(() => Text(
+              store.name.value,
               style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            )),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+}
+
+class Chats extends StatelessWidget {
+  const Chats({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const BaseScaffold(
+      title: 'Chats',
+      body: Center(
+        child: Text("Chats Page"),
+      ),
+    );
+  }
+}
+
+class Settings extends StatelessWidget {
+  const Settings({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: Text('Settings'),
+        ),
+        body: const Text("settings")
+    );
+  }
+}
+
+class StoreController extends GetxController {
+  var name = 'john kim'.obs;
+
+  void changeName() {
+    name.value = 'jane doe';
+  }
+}
+
+class NavigationController extends GetxController {
+  var currentIndex = 0.obs;
+
+  void changePage(int index) {
+    currentIndex.value = index;
+    switch (index) {
+      case 0:
+        Get.offAllNamed('/');
+        break;
+      case 1:
+        Get.offAllNamed('/new-chat');
+        break;
+      case 2:
+        Get.offAllNamed('/chats');
+        break;
+    }
   }
 }
