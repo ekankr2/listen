@@ -13,13 +13,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'HereMe',
+      title: 'Listen',
       theme: mainTheme,
       initialRoute: '/',
       getPages: [
         GetPage(
             name: '/',
-            page: () => const MyHomePage(title: 'HereMe'),
+            page: () => const MyHomePage(title: 'Listen'),
             transition: Transition.noTransition),
         GetPage(
             name: '/chats',
@@ -146,7 +146,7 @@ class Settings extends StatelessWidget {
 }
 
 class StoreController extends GetxController {
-  var name = 'john kim'.obs;
+  var name = 'paul kim'.obs;
 
   void changeName() {
     name.value = 'jane doe';
