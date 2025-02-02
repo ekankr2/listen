@@ -1,7 +1,6 @@
-import 'package:app/app/routes/app_pages.dart';
-import 'package:app/controllers/navigation_controller.dart';
-import 'package:app/controllers/store_controller.dart';
-import 'package:app/style.dart';
+import 'package:app/app/initial_binding.dart';
+import 'package:app/app/routes.dart';
+import 'package:app/app/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -17,13 +16,9 @@ class MyApp extends StatelessWidget {
     return GetCupertinoApp(
       title: 'Listen',
       theme: mainCupertinoTheme,
-      initialRoute: '/',
+      initialRoute: AppPages.initial,
       getPages: AppPages.routes,
-      initialBinding: BindingsBuilder(() {
-        Get.put(StoreController());
-        Get.put(NavigationController());
-      }),
+      initialBinding: InitialBinding(),
     );
   }
 }
-

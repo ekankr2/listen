@@ -1,4 +1,4 @@
-import 'package:app/controllers/store_controller.dart';
+import 'package:app/controllers/home_controller.dart';
 import 'package:app/presentation/widgets/base_scaffold.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -10,7 +10,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final StoreController store = Get.find<StoreController>();
+    final HomeController store = Get.find<HomeController>();
 
     return BaseScaffold(
       title: title,
@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
               'You have pushed the button this many times:',
             ),
             Obx(() => Text(
-              store.name.value,
+              store.title,
               style: Get.theme.textTheme.bodyMedium,
             )),
           ],
