@@ -11,14 +11,14 @@ class InitialBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(NavigationController(), permanent: true);
+    Get.put(HomeController());
 
-    Get.lazyPut(() => HomeController());
     Get.lazyPut(() => ChatController());
     Get.lazyPut(() => SettingsController());
 
     // Services
-    Get.put(ApiService());
-    Get.put(StorageService());
+    Get.put(ApiService(), permanent: true);
+    Get.put(StorageService(), permanent: true);
 
     // Repositories
     Get.put(UserRepository(
