@@ -1,6 +1,5 @@
 import 'package:app/style.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 void main() {
@@ -51,7 +50,7 @@ class BaseScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final NavigationController navigationController =
-    Get.find<NavigationController>();
+        Get.find<NavigationController>();
 
     return CupertinoTabScaffold(
       tabBar: CupertinoTabBar(
@@ -77,7 +76,16 @@ class BaseScaffold extends StatelessWidget {
           builder: (BuildContext context) {
             return CupertinoPageScaffold(
               navigationBar: CupertinoNavigationBar(
-                middle: Text(title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                leading: Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      title,
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
                 trailing: CupertinoButton(
                   padding: EdgeInsets.zero,
                   child: Icon(CupertinoIcons.settings),
@@ -94,7 +102,6 @@ class BaseScaffold extends StatelessWidget {
         );
       },
     );
-
   }
 }
 
@@ -117,9 +124,9 @@ class MyHomePage extends StatelessWidget {
               'You have pushed the button this many times:',
             ),
             Obx(() => Text(
-              store.name.value,
-              style: Theme.of(context).textTheme.headlineMedium,
-            )),
+                  store.name.value,
+                  style: Get.theme.textTheme.bodyMedium,
+                )),
           ],
         ),
       ),
@@ -150,8 +157,7 @@ class Settings extends StatelessWidget {
         navigationBar: CupertinoNavigationBar(
           middle: const Text('Settings'),
         ),
-        child: const Text("settings")
-    );
+        child: const Text("settings"));
   }
 }
 
