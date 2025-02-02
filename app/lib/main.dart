@@ -12,9 +12,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return GetCupertinoApp(
       title: 'Listen',
-      theme: mainTheme,
+      theme: mainCupertinoTheme,
       initialRoute: '/',
       getPages: [
         GetPage(
@@ -53,37 +53,48 @@ class BaseScaffold extends StatelessWidget {
     final NavigationController navigationController =
     Get.find<NavigationController>();
 
-    return Scaffold(
-      appBar: AppBar(
-          centerTitle: false,
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(title, style: Theme.of(context).textTheme.headlineLarge,),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.settings_outlined),
-              onPressed: () {
-                Get.toNamed("/settings");
-                // Add your onPressed logic here
-              },
-            ),
-          ]),
-      body: body,
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.black,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        currentIndex: navigationController.currentIndex.value,
-        onTap: navigationController.changePage,
+    return CupertinoTabScaffold(
+      tabBar: CupertinoTabBar(
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined), label: 'Home'),
+            icon: Icon(CupertinoIcons.home),
+            label: 'Home',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.add_circle_outline), label: 'New Message'),
+            icon: Icon(CupertinoIcons.add_circled),
+            label: 'New Message',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.chat_bubble_2), label: 'chats'),
+            icon: Icon(CupertinoIcons.chat_bubble_2),
+            label: 'Chats',
+          ),
         ],
+        onTap: navigationController.changePage,
+        currentIndex: navigationController.currentIndex.value,
       ),
+      tabBuilder: (BuildContext context, int index) {
+        return CupertinoTabView(
+          builder: (BuildContext context) {
+            return CupertinoPageScaffold(
+              navigationBar: CupertinoNavigationBar(
+                middle: Text(title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                trailing: CupertinoButton(
+                  padding: EdgeInsets.zero,
+                  child: Icon(CupertinoIcons.settings),
+                  onPressed: () {
+                    Get.toNamed("/settings");
+                  },
+                ),
+              ),
+              child: SafeArea(
+                child: body,
+              ),
+            );
+          },
+        );
+      },
     );
+
   }
 }
 
@@ -135,12 +146,11 @@ class Settings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text('Settings'),
+    return CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          middle: const Text('Settings'),
         ),
-        body: const Text("settings")
+        child: const Text("settings")
     );
   }
 }
