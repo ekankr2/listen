@@ -1,5 +1,6 @@
 import 'package:app/controllers/home_controller.dart';
 import 'package:app/presentation/widgets/base_scaffold.dart';
+import 'package:app/presentation/widgets/buttons/circle_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,29 +20,43 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            CupertinoButton(
-              padding: EdgeInsets.zero,
-              onPressed: () {},
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                      color: CupertinoColors.systemGrey.withValues(alpha: 0.15),
-                      width: 11),
-                  boxShadow: [
-                    BoxShadow(
-                      color: CupertinoColors.systemGrey.withValues(alpha: 0.3),
-                      spreadRadius: 0,
-                      blurRadius: 5,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                padding: const EdgeInsets.all(12),
+            CircleButton(
+                onPressed: () {},
                 child: Icon(Icons.play_arrow_rounded,
-                    color: CupertinoColors.systemGreen, size: 70),
-              ),
+                    color: CupertinoColors.systemGreen, size: 80)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircleButton(
+                    onPressed: () {},
+                    child: Column(
+                      children: [
+                        Icon(Icons.close_rounded,
+                            color: CupertinoColors.systemTeal, size: 50),
+                        Text('Skip',
+                            style: TextStyle(
+                                fontSize: 13,
+                                color: CupertinoColors.systemGrey
+                                    .withOpacity(0.5)))
+                      ],
+                    )),
+                CircleButton(
+                    onPressed: () {},
+                    child: Icon(Icons.save_alt,
+                        color: CupertinoColors.systemBlue, size: 20)),
+                CircleButton(
+                    onPressed: () {},
+                    padding: 17,
+                    child: Column(children: [
+                      Icon(CupertinoIcons.heart_solid,
+                          color: CupertinoColors.systemPink, size: 40),
+                      Text('Reply',
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: CupertinoColors.systemGrey
+                                  .withOpacity(0.5)))
+                    ])),
+              ],
             ),
           ],
         ),
