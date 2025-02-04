@@ -47,13 +47,13 @@ class BaseScaffold extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       title,
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
                 trailing: CupertinoButton(
                   padding: EdgeInsets.zero,
-                  child: Icon(CupertinoIcons.settings),
+                  child: Icon(CupertinoIcons.settings, size: 23),
                   onPressed: () {
                     Get.toNamed("/settings");
                   },

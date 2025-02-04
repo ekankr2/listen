@@ -18,12 +18,13 @@ class HomePage extends StatelessWidget {
       title: title,
       body: Center(
         child: Column(
+          spacing: 20,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             CircleButton(
                 onPressed: () {},
                 child: Icon(Icons.play_arrow_rounded,
-                    color: CupertinoColors.systemGreen, size: 80)),
+                    color: CupertinoColors.systemGreen, size: 90)),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
