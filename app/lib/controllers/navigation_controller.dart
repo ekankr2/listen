@@ -7,13 +7,13 @@ class NavigationController extends GetxController {
     currentIndex.value = index;
     switch (index) {
       case 0:
-        Get.offAllNamed('/');
+        Get.offNamed('/');
         break;
       case 1:
-        Get.offAllNamed('/new-story');
+        Get.toNamed('/new-story');
         break;
       case 2:
-        Get.offAllNamed('/chats');
+        Get.offNamed('/chats');
         break;
     }
   }

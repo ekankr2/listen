@@ -14,6 +14,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final HomeController store = Get.find<HomeController>();
 
+
     return BaseScaffold(
       title: title,
       body: Center(
