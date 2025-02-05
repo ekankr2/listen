@@ -10,7 +10,7 @@ class NavigationController extends GetxController {
         Get.offAllNamed('/');
         break;
       case 1:
-        Get.offAllNamed('/new-chat');
+        Get.offAllNamed('/new-story');
         break;
       case 2:
         Get.offAllNamed('/chats');

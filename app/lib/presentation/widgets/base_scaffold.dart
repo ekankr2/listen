@@ -26,7 +26,7 @@ class BaseScaffold extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.add_circled),
-            label: 'New Message',
+            label: 'New Story',
           ),
           BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.chat_bubble_2),
