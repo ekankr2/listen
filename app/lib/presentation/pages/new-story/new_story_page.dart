@@ -1,5 +1,6 @@
 import 'package:app/presentation/widgets/base_scaffold.dart';
 import 'package:app/presentation/widgets/buttons/circle_button.dart';
+import 'package:app/presentation/widgets/pill.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -25,28 +26,13 @@ class NewStoryPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: CupertinoColors.systemGrey.withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(
-                          50), // Large radius for pill shape
-                    ),
-                    child: Text(
-                      'example',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
+                  Pill(color: CupertinoColors.systemGrey3, text: 'example'),
                   SizedBox(width: 14),
                   Expanded(
                     child: Text("You won't believe what happened to me today...",
                         style: TextStyle(
-                            fontSize: 16,
-                            color: CupertinoColors.systemGrey.withOpacity(0.5))),
+                            fontSize: 15,
+                            color: CupertinoColors.systemGrey.withOpacity(0.8))),
                   )
                 ],
               ),
