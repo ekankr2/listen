@@ -17,4 +17,8 @@ class NavigationController extends GetxController {
         break;
     }
   }
+
+  void updateIndex(int index) {
+    currentIndex.value = index;
+  }
 }

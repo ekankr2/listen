@@ -1,3 +1,4 @@
+import 'package:app/controllers/navigation_controller.dart';
 import 'package:app/presentation/pages/chats/chats_page.dart';
 import 'package:app/presentation/pages/home/home_page.dart';
 import 'package:app/presentation/pages/new-story/new_story_page.dart';
@@ -9,13 +10,11 @@ class AppPages {
 
   static final routes = [
     GetPage(
-        name: '/',
-        page: () => const HomePage(title: 'Listen'),
+      name: '/',
+      page: () => const HomePage(title: 'Listen'),
+      transition: Transition.noTransition,
     ),
-    GetPage(
-        name: '/new-story',
-        page: () => const NewStoryPage(),
-        ),
+    GetPage(name: '/new-story', page: () => const NewStoryPage()),
     GetPage(
         name: '/chats',
         page: () => const ChatsPage(),
