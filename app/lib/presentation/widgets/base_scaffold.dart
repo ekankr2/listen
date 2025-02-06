@@ -15,57 +15,61 @@ class BaseScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final NavigationController navigationController =
-    Get.find<NavigationController>();
+        Get.find<NavigationController>();
 
-    return CupertinoTabScaffold(
-      tabBar: CupertinoTabBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.add_circled),
-            label: 'New Story',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.chat_bubble_2),
-            label: 'Chats',
-          ),
-        ],
-        onTap: navigationController.changePage,
-        currentIndex: navigationController.currentIndex.value,
-      ),
-      tabBuilder: (BuildContext context, int index) {
-        return CupertinoTabView(
-          builder: (BuildContext context) {
-            return CupertinoPageScaffold(
-              navigationBar: CupertinoNavigationBar(
-                leading: Padding(
-                  padding: EdgeInsets.only(left: 8.0),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      title,
-                      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+    return Obx(() {
+      return CupertinoTabScaffold(
+        controller: navigationController.tabController,
+        tabBar: CupertinoTabBar(
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.add_circled),
+              label: 'New Story',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.chat_bubble_2),
+              label: 'Chats',
+            ),
+          ],
+          onTap: navigationController.changePage,
+          currentIndex: navigationController.currentIndex.value,
+        ),
+        tabBuilder: (BuildContext context, int index) {
+          return CupertinoTabView(
+            builder: (BuildContext context) {
+              return CupertinoPageScaffold(
+                navigationBar: CupertinoNavigationBar(
+                  leading: Padding(
+                    padding: EdgeInsets.only(left: 8.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
+                  trailing: CupertinoButton(
+                    padding: EdgeInsets.zero,
+                    child: Icon(CupertinoIcons.settings, size: 23),
+                    onPressed: () {
+                      Get.toNamed("/settings");
+                    },
+                  ),
                 ),
-                trailing: CupertinoButton(
-                  padding: EdgeInsets.zero,
-                  child: Icon(CupertinoIcons.settings, size: 23),
-                  onPressed: () {
-                    Get.toNamed("/settings");
-                  },
+                child: SafeArea(
+                  child: body,
                 ),
-              ),
-              child: SafeArea(
-                child: body,
-              ),
-            );
-          },
-        );
-      },
-    );
+              );
+            },
+          );
+        },
+      );
+    });
   }
 }
