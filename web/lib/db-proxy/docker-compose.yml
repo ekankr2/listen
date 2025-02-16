@@ -5,7 +5,7 @@ services:
     container_name: db-proxy-server
     restart: unless-stopped
     volumes:
-      - ./conf:/etc/nginx/conf.d
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ./logs:/var/log/nginx
     ports:
       - "80:80"
