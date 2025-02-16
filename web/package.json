@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "drizzle-orm": "^0.39.3",
     "next": "15.1.6",
+    "postgres": "^3.4.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
@@ -17,7 +19,9 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "drizzle-kit": "^0.30.4",
     "prettier": "3.4.2",
+    "tsx": "^4.19.2",
     "typescript": "^5"
   }
 }
