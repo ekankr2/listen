@@ -3,47 +3,35 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ChatsPage extends StatelessWidget {
-  const ChatsPage({super.key});
+class ChatRoomPage extends StatelessWidget {
+  const ChatRoomPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     List<String> entries = <String>[
-      'A',
-      'B',
-      'C',
-      'D',
-      'E',
-      'F',
-      'G',
-      'H',
-      'I',
-      'J',
-      'K',
-      'L',
-      'M',
-      'N',
-      'O',
+      'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+      'K', 'L', 'M', 'N', 'O',
     ];
 
-    return BaseScaffold(
-      title: 'Chats',
-      body: CupertinoScrollbar(
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: const Text('Chat Room'),
+      ),
+      child: CupertinoScrollbar(
         child: ListView.separated(
           padding: const EdgeInsets.all(8),
           itemCount: entries.length,
           itemBuilder: (BuildContext context, int index) {
             return CupertinoButton(
               onPressed: () {
-                Get.toNamed('/chats/${entries[index]}');
+                Get.toNamed('/chatroom/${entries[index]}');
               },
-              child: Row(children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Container(
+                height: 50,
+                child: Center(
                   child: Text('Entry ${entries[index]}'),
                 ),
-                Spacer(),
-              ]),
+              ),
             );
           },
           separatorBuilder: (BuildContext context, int index) => Divider(
@@ -55,3 +43,4 @@ class ChatsPage extends StatelessWidget {
     );
   }
 }
+
