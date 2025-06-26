@@ -36,6 +36,7 @@ dependencies:
   mix: ^1.5.3
   supabase_flutter: ^2.8.3
   record: ^5.2.0
+  path_provider: ^2.1.4
 dev_dependencies:
   flutter_test:
     sdk: flutter

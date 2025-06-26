@@ -1,4 +1,3 @@
-import 'package:app/controllers/navigation_controller.dart';
 import 'package:app/presentation/pages/chatroom/chatroom_page.dart';
 import 'package:app/presentation/pages/chats/chats_page.dart';
 import 'package:app/presentation/pages/home/home_page.dart';

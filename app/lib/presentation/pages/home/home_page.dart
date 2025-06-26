@@ -12,8 +12,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final HomeController store = Get.find<HomeController>();
-
+    final HomeController controller = Get.find<HomeController>();
 
     return BaseScaffold(
       title: title,
@@ -22,42 +21,72 @@ class HomePage extends StatelessWidget {
           spacing: 20,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            CircleButton(
-                onPressed: () {},
-                child: Icon(Icons.play_arrow_rounded,
-                    color: CupertinoColors.systemGreen, size: 90)),
+            Obx(() => Text(
+              controller.hasCurrentMessage 
+                ? 'New voice message from someone nearby...'
+                : 'Looking for new voices...',
+              style: TextStyle(
+                fontSize: 16,
+                color: CupertinoColors.systemGrey,
+              ),
+              textAlign: TextAlign.center,
+            )),
+            SizedBox(height: 20),
+            Obx(() => CircleButton(
+                onPressed: controller.hasCurrentMessage 
+                  ? () => controller.playCurrentMessage() 
+                  : () {},
+                child: Icon(
+                  controller.isPlaying 
+                    ? Icons.pause_rounded 
+                    : Icons.play_arrow_rounded,
+                  color: controller.hasCurrentMessage 
+                    ? CupertinoColors.systemGreen 
+                    : CupertinoColors.systemGrey,
+                  size: 90
+                ))),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircleButton(
-                    onPressed: () {},
+                Obx(() => CircleButton(
+                    onPressed: controller.hasCurrentMessage 
+                      ? () => controller.skipCurrentMessage() 
+                      : () {},
                     child: Column(
                       children: [
                         Icon(Icons.close_rounded,
-                            color: CupertinoColors.systemTeal, size: 50),
+                            color: controller.hasCurrentMessage 
+                              ? CupertinoColors.systemTeal 
+                              : CupertinoColors.systemGrey,
+                            size: 50),
                         Text('Skip',
                             style: TextStyle(
                                 fontSize: 13,
                                 color: CupertinoColors.systemGrey
                                     .withOpacity(0.5)))
                       ],
-                    )),
+                    ))),
                 CircleButton(
                     onPressed: () {},
                     child: Icon(Icons.save_alt,
                         color: CupertinoColors.systemBlue, size: 20)),
-                CircleButton(
-                    onPressed: () {},
+                Obx(() => CircleButton(
+                    onPressed: controller.hasCurrentMessage 
+                      ? () => controller.replyToCurrentMessage() 
+                      : () {},
                     padding: 17,
                     child: Column(children: [
                       Icon(CupertinoIcons.heart_solid,
-                          color: CupertinoColors.systemPink, size: 40),
+                          color: controller.hasCurrentMessage 
+                            ? CupertinoColors.systemPink 
+                            : CupertinoColors.systemGrey,
+                          size: 40),
                       Text('Reply',
                           style: TextStyle(
                               fontSize: 13,
                               color: CupertinoColors.systemGrey
                                   .withOpacity(0.5)))
-                    ])),
+                    ]))),
               ],
             ),
           ],
