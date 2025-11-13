@@ -73,3 +73,9 @@ When approaching a new feature:
 Follow this process precisely, always prioritizing clean, well-tested code over quick implementation.
 
 Always write one test at a time, make it run, then improve structure. Always run all the tests (except long-running tests) each time.
+
+---
+
+# ELYSIA DOCUMENTATION
+
+If you are stuck or unsure about Elysia syntax/patterns, read `.claude/llms.txt` for the complete Elysia documentation reference.
