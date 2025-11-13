@@ -1,29 +1,24 @@
-import 'package:app/app/initial_binding.dart';
-import 'package:app/app/routes.dart';
-import 'package:app/app/style.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'core/router/app_router.dart';
+import 'app/style.dart';
 
 Future<void> main() async {
-  await Supabase.initialize(
-    url: 'https://jdrtxofrlkcfxicyuejw.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkcnR4b2ZybGtjZnhpY3l1ZWp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg2MDA2NjQsImV4cCI6MjA1NDE3NjY2NH0.L4C9of1LLsM84ATecAcNmqN-okh7HS9_r7CvRPZSNuw',
-  );
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return GetCupertinoApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(goRouterProvider);
+
+    return CupertinoApp.router(
       title: 'Listen',
       theme: mainCupertinoTheme,
-      initialRoute: AppPages.initial,
-      getPages: AppPages.routes,
-      initialBinding: InitialBinding(),
+      routerConfig: router,
     );
   }
 }
