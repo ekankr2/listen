@@ -125,17 +125,34 @@ class _FakeSharedPreferences implements shared_preferences.SharedPreferences {
 
 // Simple fake audio service for testing
 class FakeAudioService extends AudioService {
-  @override
-  Future<void> play(String url) async {}
+  bool playCalled = false;
+  bool playFromFileCalled = false;
+  bool pauseCalled = false;
+  bool stopCalled = false;
+  String? lastPlayedUrl;
+  String? lastPlayedPath;
 
   @override
-  Future<void> playFromFile(String path) async {}
+  Future<void> play(String url) async {
+    playCalled = true;
+    lastPlayedUrl = url;
+  }
 
   @override
-  Future<void> pause() async {}
+  Future<void> playFromFile(String path) async {
+    playFromFileCalled = true;
+    lastPlayedPath = path;
+  }
 
   @override
-  Future<void> stop() async {}
+  Future<void> pause() async {
+    pauseCalled = true;
+  }
+
+  @override
+  Future<void> stop() async {
+    stopCalled = true;
+  }
 
   @override
   Future<void> dispose() async {}
@@ -169,6 +186,76 @@ void main() {
       expect(state.currentMessage?.id, equals('1'));
       expect(state.isLoading, isFalse);
       expect(state.error, isNull);
+    });
+
+    test('shouldPlayAudioWhenPlayButtonTapped', () async {
+      // Arrange
+      TestWidgetsFlutterBinding.ensureInitialized();
+
+      final fakeApiService = FakeApiService();
+      final fakeAudioService = FakeAudioService();
+
+      final container = ProviderContainer(
+        overrides: [
+          apiServiceProvider.overrideWithValue(fakeApiService),
+          audioServiceProvider.overrideWithValue(fakeAudioService),
+        ],
+      );
+
+      addTearDown(container.dispose);
+
+      // Load a message first
+      final notifier = container.read(homeProvider.notifier);
+      await notifier.loadRandomVoiceMessage();
+
+      // Verify initial state
+      var state = container.read(homeProvider);
+      expect(state.isPlaying, isFalse);
+      expect(fakeAudioService.playCalled, isFalse);
+
+      // Act - Play the message
+      await notifier.playCurrentMessage();
+
+      // Assert - isPlaying should be true and audio service should be called
+      state = container.read(homeProvider);
+      expect(state.isPlaying, isTrue);
+      expect(fakeAudioService.playCalled, isTrue);
+      expect(fakeAudioService.lastPlayedUrl, equals('https://example.com/audio.mp3'));
+    });
+
+    test('shouldPauseAudioWhenPauseButtonTapped', () async {
+      // Arrange
+      TestWidgetsFlutterBinding.ensureInitialized();
+
+      final fakeApiService = FakeApiService();
+      final fakeAudioService = FakeAudioService();
+
+      final container = ProviderContainer(
+        overrides: [
+          apiServiceProvider.overrideWithValue(fakeApiService),
+          audioServiceProvider.overrideWithValue(fakeAudioService),
+        ],
+      );
+
+      addTearDown(container.dispose);
+
+      // Load a message and start playing
+      final notifier = container.read(homeProvider.notifier);
+      await notifier.loadRandomVoiceMessage();
+      await notifier.playCurrentMessage();
+
+      // Verify playing state
+      var state = container.read(homeProvider);
+      expect(state.isPlaying, isTrue);
+      expect(fakeAudioService.pauseCalled, isFalse);
+
+      // Act - Pause the message (call playCurrentMessage again)
+      await notifier.playCurrentMessage();
+
+      // Assert - isPlaying should be false and pause should be called
+      state = container.read(homeProvider);
+      expect(state.isPlaying, isFalse);
+      expect(fakeAudioService.pauseCalled, isTrue);
     });
   });
 }

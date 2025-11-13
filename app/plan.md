@@ -20,9 +20,9 @@ This plan follows Kent Beck's TDD methodology. Each item represents a test to be
 - [x] Play/pause audio playback
 - [x] Skip to next random message
 - [x] Test: shouldLoadRandomMessageOnInitialization
-- [ ] Test: shouldDisplayMessageMetadata (duration, timestamp, sender name)
-- [ ] Test: shouldPlayAudioWhenPlayButtonTapped
-- [ ] Test: shouldPauseAudioWhenPauseButtonTapped
+- [x] Test: shouldDisplayMessageMetadata (duration, timestamp, sender name)
+- [x] Test: shouldPlayAudioWhenPlayButtonTapped
+- [x] Test: shouldPauseAudioWhenPauseButtonTapped
 - [ ] Test: shouldStopCurrentAndLoadNextOnSkip
 - [ ] Test: shouldShowLoadingIndicatorWhileFetchingMessage
 - [ ] Test: shouldShowErrorMessageWhenApiFails
