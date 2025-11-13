@@ -57,19 +57,50 @@ class _HomePageState extends ConsumerState<HomePage> {
                     width: 1,
                   ),
                 ),
-                child: Text(
-                  state.currentMessage != null
-                      ? '🎵 New voice message...'
-                      : state.isLoading
-                          ? '🔍 Looking for new voices...'
-                          : '🔍 Tap to discover',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    color: VoiceColors.textSecondary,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+                child: state.currentMessage != null
+                    ? Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            state.currentMessage!.senderName ?? 'Unknown',
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: VoiceColors.textPrimary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            _formatDuration(state.currentMessage!.durationMs),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: VoiceColors.textSecondary,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            _formatTimestamp(state.currentMessage!.createdAt),
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: VoiceColors.textSecondary,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Text(
+                        state.isLoading
+                            ? '🔍 Looking for new voices...'
+                            : '🔍 Tap to discover',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: VoiceColors.textSecondary,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
               ),
               Container(
                 decoration: BoxDecoration(
@@ -183,5 +214,17 @@ class _HomePageState extends ConsumerState<HomePage> {
         ),
       ],
     );
+  }
+
+  String _formatDuration(int durationMs) {
+    final seconds = (durationMs / 1000).round();
+    final minutes = seconds ~/ 60;
+    final remainingSeconds = seconds % 60;
+    return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
+  }
+
+  String _formatTimestamp(DateTime timestamp) {
+    final months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return '${months[timestamp.month - 1]} ${timestamp.day}';
   }
 }
