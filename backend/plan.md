@@ -25,32 +25,30 @@ This plan follows Kent Beck's TDD methodology. Each item represents a test to be
 - [x] Feature: Error handling middleware
 - [x] Feature: Request validation middleware
 
-### 1.2 User Authentication & Authorization
+### 1.2 User Authentication & Authorization (OAuth2 with Better Auth)
 
-**Current Status:** Not implemented
+**Current Status:** OAuth2-only (Google, Kakao) using Better Auth
 
-#### Registration
-- [~] Test: shouldRegisterNewUserWithValidCredentials
-- [ ] Test: shouldHashPasswordBeforeStoring
-- [ ] Test: shouldRejectDuplicateEmail
-- [ ] Test: shouldRejectDuplicateUsername
-- [ ] Test: shouldValidateEmailFormat
-- [ ] Test: shouldEnforcePasswordStrength
-- [ ] Test: shouldReturnAccessAndRefreshTokens
-- [ ] Feature: POST /api/auth/register endpoint
-- [ ] Feature: User model with validation
-- [ ] Feature: Password hashing (bcrypt)
-- [ ] Feature: JWT token generation
+#### Better Auth Setup
+- [ ] Feature: Install better-auth and @better-auth/cli
+- [ ] Feature: Configure Better Auth with Drizzle database
+- [ ] Feature: Setup Google OAuth provider credentials
+- [ ] Feature: Setup Kakao OAuth provider credentials
+- [ ] Feature: Mount Better Auth handler to Elysia app
+- [ ] Feature: Configure auth client for frontend
 
-#### Login
-- [ ] Test: shouldLoginWithValidCredentials
-- [ ] Test: shouldRejectInvalidPassword
-- [ ] Test: shouldRejectNonexistentUser
-- [ ] Test: shouldReturnAccessAndRefreshTokens
+#### OAuth2 Authentication
+- [ ] Test: shouldAuthenticateWithGoogleOAuth
+- [ ] Test: shouldAuthenticateWithKakaoOAuth
+- [ ] Test: shouldCreateNewUserFromOAuthProfile
+- [ ] Test: shouldReturnExistingUserForKnownOAuthAccount
+- [ ] Test: shouldPreventDuplicateOAuthAccounts
+- [ ] Test: shouldReturnSessionAfterOAuthSuccess
 - [ ] Test: shouldUpdateLastLoginTimestamp
-- [ ] Feature: POST /api/auth/login endpoint
-- [ ] Feature: Password verification
-- [ ] Feature: Token pair generation
+- [ ] Feature: Google OAuth sign-in via Better Auth
+- [ ] Feature: Kakao OAuth sign-in via Better Auth
+- [ ] Feature: User creation from OAuth profile
+- [ ] Feature: Session management via Better Auth
 
 #### Token Management
 - [ ] Test: shouldRefreshAccessTokenWithValidRefreshToken
@@ -626,19 +624,21 @@ This plan follows Kent Beck's TDD methodology. Each item represents a test to be
 
 ## Database Schema Overview
 
-### Users
+### Users (OAuth2-only)
 ```sql
 id: UUID (PK)
 email: STRING (unique, not null)
 username: STRING (unique, not null)
-password_hash: STRING (not null)
 first_name: STRING
 avatar_url: STRING
 voice_bio_url: STRING
+oauth_provider: ENUM (google, kakao, not null)
+oauth_provider_id: STRING (not null)
 status: ENUM (active, suspended, banned)
 created_at: TIMESTAMP
 updated_at: TIMESTAMP
 last_login_at: TIMESTAMP
+UNIQUE (oauth_provider, oauth_provider_id)
 ```
 
 ### Stories
@@ -719,14 +719,14 @@ created_at: TIMESTAMP
 
 **Framework:** Elysia (Bun runtime)
 **Database:** PostgreSQL
-**ORM:** Drizzle or Prisma
-**Authentication:** JWT (jsonwebtoken)
+**ORM:** Drizzle
+**Authentication:** Better Auth (OAuth2: Google, Kakao)
 **Cloud Storage:** AWS S3 / Cloudflare R2 / Google Cloud Storage
 **CDN:** CloudFront / Cloudflare
 **Caching:** Redis
 **Push Notifications:** Firebase Cloud Messaging + APNs
 **Real-time:** WebSocket (Elysia WS plugin)
-**Testing:** Bun test / Vitest
+**Testing:** Bun test
 **Deployment:** Docker + Cloud Run / Railway / Fly.io
 
 ---
