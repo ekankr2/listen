@@ -30,7 +30,7 @@ This plan follows Kent Beck's TDD methodology. Each item represents a test to be
 **Current Status:** Not implemented
 
 #### Registration
-- [ ] Test: shouldRegisterNewUserWithValidCredentials
+- [~] Test: shouldRegisterNewUserWithValidCredentials
 - [ ] Test: shouldHashPasswordBeforeStoring
 - [ ] Test: shouldRejectDuplicateEmail
 - [ ] Test: shouldRejectDuplicateUsername
