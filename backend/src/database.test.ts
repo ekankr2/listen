@@ -1,5 +1,5 @@
 import { describe, it, expect } from "bun:test";
-import { connectDatabase } from "./database";
+import { connectDatabase } from "@/db";
 
 describe("Database", () => {
   it("shouldConnectToDatabaseOnStartup", async () => {

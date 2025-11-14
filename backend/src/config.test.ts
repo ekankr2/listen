@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from "bun:test";
-import { loadEnvironmentVariables } from "./config";
+import { loadEnvironmentVariables } from "@/config";
 
 describe("Config", () => {
   let originalEnv: NodeJS.ProcessEnv;
