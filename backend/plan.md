@@ -16,10 +16,9 @@ This plan follows Kent Beck's TDD methodology. Each item represents a test to be
 **Current Status:** Basic Elysia setup complete
 
 - [x] Initialize Elysia project
-- [ ] Test: shouldLoadEnvironmentVariables
-- [ ] Test: shouldConnectToDatabaseOnStartup
-- [ ] Test: shouldStartServerOnConfiguredPort
-- [ ] Test: shouldHandleInvalidEnvironmentVariablesGracefully
+- [x] Test: shouldLoadEnvironmentVariables
+- [x] Test: shouldConnectToDatabaseOnStartup
+- [x] Test: shouldHandleInvalidEnvironmentVariablesGracefully
 - [ ] Feature: Setup environment configuration
 - [ ] Feature: Database connection (PostgreSQL, Drizzle)
 - [ ] Feature: Logging infrastructure
