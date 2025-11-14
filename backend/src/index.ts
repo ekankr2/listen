@@ -1,7 +1,14 @@
 import { Elysia } from "elysia";
+import { errorHandler } from "@/middleware/error-handler";
+import { logger } from "@/lib/logger";
+import { loadEnvironmentVariables } from "@/config";
 
-const app = new Elysia().get("/", () => "Hello Elysia").listen(3000);
+const config = loadEnvironmentVariables();
 
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+const app = new Elysia()
+  .use(errorHandler)
+  .get("/", () => "Hello Elysia")
+  .get("/health", () => ({ status: "ok", timestamp: new Date().toISOString() }))
+  .listen(config.port);
+
+logger.info(`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`);
